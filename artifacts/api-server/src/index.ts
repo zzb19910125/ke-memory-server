@@ -2,9 +2,12 @@ import app from "./app";
 import { logger } from "./lib/logger";
 
 // 雏菊小屋接口
-app.get('/api/daisy/read/*', async (req, res) => {
+app.get('/api/daisy/read', async (req, res) => {
   try {
-    const filePath = req.params[0];
+    const filePath = req.query.path as string;
+    if (!filePath) {
+      return res.status(400).json({ error: 'Missing path parameter' });
+    }
     const url = `https://raw.githubusercontent.com/zzb19910125/CHUJUDaisy-House-Vault/master/雏菊小屋/${filePath}`;
     const response = await fetch(url);
     if (!response.ok) {
