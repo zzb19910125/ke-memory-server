@@ -8,11 +8,11 @@ app.get('/api/daisy/read', async (req, res) => {
     if (!filePath) {
       return res.status(400).json({ error: 'Missing path parameter' });
     }
-    const url = `https://raw.githubusercontent.com/zzb19910125/CHUJUDaisy-House-Vault/master/雏菊小屋/${filePath}`;
+    const url = `https://api.github.com/repos/zzb19910125/CHUJUDaisy-House-Vault/contents/雏菊小屋/${encodeURIComponent(filePath)}`;
     const response = await fetch(url, {
       headers: {
         'Authorization': `token ${process.env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3.raw'
+        'Accept': 'application/vnd.github.raw'
       }
     });
     if (!response.ok) {
