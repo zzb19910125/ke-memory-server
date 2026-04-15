@@ -9,7 +9,12 @@ app.get('/api/daisy/read', async (req, res) => {
       return res.status(400).json({ error: 'Missing path parameter' });
     }
     const url = `https://raw.githubusercontent.com/zzb19910125/CHUJUDaisy-House-Vault/master/雏菊小屋/${filePath}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3.raw'
+      }
+    });
     if (!response.ok) {
       return res.status(404).json({ error: 'File not found' });
     }
@@ -25,6 +30,7 @@ app.get('/api/daisy/list', async (req, res) => {
     const url = 'https://api.github.com/repos/zzb19910125/CHUJUDaisy-House-Vault/contents/雏菊小屋';
     const response = await fetch(url, {
       headers: {
+        'Authorization': `token ${process.env.GITHUB_TOKEN}`,
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'ke-memory-server'
       }
